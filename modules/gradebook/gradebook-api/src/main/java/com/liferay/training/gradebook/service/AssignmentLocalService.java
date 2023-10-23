@@ -36,10 +36,8 @@ import com.liferay.training.gradebook.model.Assignment;
 
 import java.io.Serializable;
 
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -81,8 +79,9 @@ public interface AssignmentLocalService
 	public Assignment addAssignment(Assignment assignment);
 
 	public Assignment addAssignment(
-			long groupId, Map<Locale, String> titleMap, String description,
-			Date dueDate, ServiceContext serviceContext)
+			long groupId, java.util.Map<java.util.Locale, String> titleMap,
+			java.util.Map<java.util.Locale, String> descriptionMap,
+			java.util.Date dueDate, ServiceContext serviceContext)
 		throws PortalException;
 
 	/**
@@ -268,6 +267,10 @@ public interface AssignmentLocalService
 	public long getAssignmentsCountByKeywords(long groupId, String keywords);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public long getAssignmentsCountByKeywords(
+		long groupId, String keywords, int status);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
 
 	/**
@@ -299,8 +302,14 @@ public interface AssignmentLocalService
 	public Assignment updateAssignment(Assignment assignment);
 
 	public Assignment updateAssignment(
-			long assignmentId, Map<Locale, String> titleMap, String description,
-			Date dueDate, ServiceContext serviceContext)
+			long assignmentId, java.util.Map<java.util.Locale, String> titleMap,
+			java.util.Map<java.util.Locale, String> description,
+			java.util.Date dueDate, ServiceContext serviceContext)
 		throws PortalException;
+
+	public Assignment updateStatus(
+			long userId, long assignmentId, int status,
+			ServiceContext serviceContext)
+		throws PortalException, SystemException;
 
 }

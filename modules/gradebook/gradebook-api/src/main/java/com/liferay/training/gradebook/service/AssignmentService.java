@@ -57,8 +57,9 @@ public interface AssignmentService extends BaseService {
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.training.gradebook.service.impl.AssignmentServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the assignment remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link AssignmentServiceUtil} if injection and service tracking are not available.
 	 */
 	public Assignment addAssignment(
-			long groupId, Map<Locale, String> titleMap, String description,
-			Date dueDate, ServiceContext serviceContext)
+			long groupId, Map<Locale, String> titleMap,
+			Map<Locale, String> description, Date dueDate,
+			ServiceContext serviceContext)
 		throws PortalException;
 
 	public Assignment deleteAssignment(long assignmentId)
@@ -73,10 +74,11 @@ public interface AssignmentService extends BaseService {
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Assignment> getAssignmentsByKeywords(
 		long groupId, String keywords, int start, int end,
-		OrderByComparator<Assignment> orderByComparator);
+		OrderByComparator<Assignment> orderByComparator, int status);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public long getAssignmentsCountByKeywords(long groupId, String keywords);
+	public long getAssignmentsCountByKeywords(
+		long groupId, String keywords, int status);
 
 	/**
 	 * Returns the OSGi service identifier.
@@ -86,8 +88,9 @@ public interface AssignmentService extends BaseService {
 	public String getOSGiServiceIdentifier();
 
 	public Assignment updateAssignment(
-			long assignmentId, Map<Locale, String> titleMap, String description,
-			Date dueDate, ServiceContext serviceContext)
+			long assignmentId, Map<Locale, String> titleMap,
+			Map<Locale, String> description, Date dueDate,
+			ServiceContext serviceContext)
 		throws PortalException;
 
 }

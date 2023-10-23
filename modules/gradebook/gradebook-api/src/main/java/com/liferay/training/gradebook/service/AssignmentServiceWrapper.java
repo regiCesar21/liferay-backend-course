@@ -37,7 +37,8 @@ public class AssignmentServiceWrapper
 	@Override
 	public com.liferay.training.gradebook.model.Assignment addAssignment(
 			long groupId, java.util.Map<java.util.Locale, String> titleMap,
-			String description, java.util.Date dueDate,
+			java.util.Map<java.util.Locale, String> description,
+			java.util.Date dueDate,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
@@ -74,16 +75,19 @@ public class AssignmentServiceWrapper
 			long groupId, String keywords, int start, int end,
 			com.liferay.portal.kernel.util.OrderByComparator
 				<com.liferay.training.gradebook.model.Assignment>
-					orderByComparator) {
+					orderByComparator,
+			int status) {
 
 		return _assignmentService.getAssignmentsByKeywords(
-			groupId, keywords, start, end, orderByComparator);
+			groupId, keywords, start, end, orderByComparator, status);
 	}
 
 	@Override
-	public long getAssignmentsCountByKeywords(long groupId, String keywords) {
+	public long getAssignmentsCountByKeywords(
+		long groupId, String keywords, int status) {
+
 		return _assignmentService.getAssignmentsCountByKeywords(
-			groupId, keywords);
+			groupId, keywords, status);
 	}
 
 	/**
@@ -99,7 +103,8 @@ public class AssignmentServiceWrapper
 	@Override
 	public com.liferay.training.gradebook.model.Assignment updateAssignment(
 			long assignmentId, java.util.Map<java.util.Locale, String> titleMap,
-			String description, java.util.Date dueDate,
+			java.util.Map<java.util.Locale, String> description,
+			java.util.Date dueDate,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 

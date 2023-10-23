@@ -6,11 +6,11 @@ create table Gradebook_Assignment (
 	userName VARCHAR(75) null,
 	createDate DATE null,
 	modifiedDate DATE null,
-	description VARCHAR(75) null,
 	dueDate DATE null,
 	status INTEGER,
 	statusByUserId LONG,
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
+	description STRING null,
 	title STRING null
 );

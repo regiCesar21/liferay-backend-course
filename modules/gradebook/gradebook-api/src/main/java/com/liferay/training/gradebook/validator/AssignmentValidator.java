@@ -17,6 +17,6 @@ public interface AssignmentValidator {
      * @throws AssignmentValidationException
      */
     public void validate(
-            Map<Locale, String> title, String description, Date dueDate)
+            Map<Locale, String> title, Map<Locale, String> description, Date dueDate)
             throws AssignmentValidationException;
 }

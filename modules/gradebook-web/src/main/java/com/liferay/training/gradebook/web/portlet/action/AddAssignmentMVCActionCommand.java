@@ -59,7 +59,7 @@ public class AddAssignmentMVCActionCommand extends BaseMVCActionCommand {
         Map<Locale, String> titleMap =
                 LocalizationUtil.getLocalizationMap(actionRequest, "title");
 
-        String description = ParamUtil.getString(actionRequest, "description", null);
+        Map<Locale, String> description = LocalizationUtil.getLocalizationMap(actionRequest, "description");
 
         Date dueDate = ParamUtil.getDate(actionRequest, "dueDate", null);
 

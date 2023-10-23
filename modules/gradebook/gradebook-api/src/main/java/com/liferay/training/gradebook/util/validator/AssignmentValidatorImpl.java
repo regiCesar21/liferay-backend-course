@@ -1,8 +1,11 @@
 package com.liferay.training.gradebook.util.validator;
 
+import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.training.gradebook.configuration.GradebookSystemServiceConfiguration;
 import com.liferay.training.gradebook.exception.AssignmentValidationException;
 import com.liferay.training.gradebook.validator.AssignmentValidator;
 
@@ -12,9 +15,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Modified;
 
 @Component(
+        configurationPid = "com.liferay.training.gradebook.configuration.GradebookSystemService",
         immediate = true,
         service = AssignmentValidator.class
 )
@@ -31,7 +37,7 @@ public class AssignmentValidatorImpl implements AssignmentValidator {
      * @throws AssignmentValidationException
      */
     public void validate(
-            Map<Locale, String> titleMap, String description, Date dueDate)
+            Map<Locale, String> titleMap, Map<Locale, String> description, Date dueDate)
             throws AssignmentValidationException {
 
         List<String> errors = new ArrayList<>();
@@ -53,7 +59,7 @@ public class AssignmentValidatorImpl implements AssignmentValidator {
      *         <code>false</code>
      */
     private boolean isAssignmentValid(
-            final Map<Locale, String> titleMap, final String description,
+            final Map<Locale, String> titleMap, final Map<Locale, String> description,
             final Date dueDate, final List<String> errors) {
 
         boolean result = true;
@@ -75,18 +81,39 @@ public class AssignmentValidatorImpl implements AssignmentValidator {
      *         <code>false</code>
      */
     private boolean isDescriptionValid(
-            final String description, final List<String> errors) {
-
+            final Map<Locale, String> descriptionMap, final List<String> errors) {
         boolean result = true;
-
         // Verify the map has something
-
-        if (description == "") {
+        if (MapUtil.isEmpty(descriptionMap)) {
             errors.add("assignmentDescriptionEmpty");
             result = false;
         }
-        return result;
+        else {
+            // Get the default locale
+            Locale defaultLocale = LocaleUtil.getSiteDefault();
+            String descriptionHTML = descriptionMap.get(defaultLocale);
+
+            if ((Validator.isBlank(descriptionHTML))) {
+                errors.add("assignmentDescriptionEmpty");
+                result = false;
+            }
+            // Strip HTML tags from text.
+            String descriptionText = HtmlUtil.stripHtml(descriptionHTML);
+            if (Validator.isBlank(descriptionText)) {
+                errors.add("assignmentDescriptionEmpty");
+                result = false;
+            }
+            if (descriptionText.length() < _moduleConfiguration.descriptionMinLength()) {
+                errors.add("assignmentDescriptionTooShort");
+                result = false;
+            }
+            else if (descriptionText.length() > _moduleConfiguration.descriptionMaxLength()) {
+                errors.add("assignmentDescriptionTooLong");
+            result = false;
+        }
     }
+        return result;
+}
 
 
     /**
@@ -148,4 +175,13 @@ public class AssignmentValidatorImpl implements AssignmentValidator {
 
         return result;
     }
+
+    @Activate
+    @Modified
+    private void activate(Map<String, Object> properties) {
+        _moduleConfiguration = ConfigurableUtil.createConfigurable(
+                GradebookSystemServiceConfiguration.class, properties);
+    }
+
+    private volatile GradebookSystemServiceConfiguration _moduleConfiguration;
 }
