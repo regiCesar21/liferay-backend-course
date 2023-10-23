@@ -46,8 +46,6 @@ public class AssignmentTable extends BaseTable<AssignmentTable> {
 		"createDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
 	public final Column<AssignmentTable, Date> modifiedDate = createColumn(
 		"modifiedDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
-	public final Column<AssignmentTable, String> description = createColumn(
-		"description", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<AssignmentTable, Date> dueDate = createColumn(
 		"dueDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
 	public final Column<AssignmentTable, Integer> status = createColumn(
@@ -60,6 +58,8 @@ public class AssignmentTable extends BaseTable<AssignmentTable> {
 			Column.FLAG_DEFAULT);
 	public final Column<AssignmentTable, Date> statusDate = createColumn(
 		"statusDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
+	public final Column<AssignmentTable, String> description = createColumn(
+		"description", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<AssignmentTable, String> title = createColumn(
 		"title", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 

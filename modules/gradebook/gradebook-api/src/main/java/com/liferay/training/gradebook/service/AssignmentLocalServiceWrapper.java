@@ -56,12 +56,13 @@ public class AssignmentLocalServiceWrapper
 	@Override
 	public com.liferay.training.gradebook.model.Assignment addAssignment(
 			long groupId, java.util.Map<java.util.Locale, String> titleMap,
-			String description, java.util.Date dueDate,
+			java.util.Map<java.util.Locale, String> descriptionMap,
+			java.util.Date dueDate,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _assignmentLocalService.addAssignment(
-			groupId, titleMap, description, dueDate, serviceContext);
+			groupId, titleMap, descriptionMap, dueDate, serviceContext);
 	}
 
 	/**
@@ -342,6 +343,14 @@ public class AssignmentLocalServiceWrapper
 	}
 
 	@Override
+	public long getAssignmentsCountByKeywords(
+		long groupId, String keywords, int status) {
+
+		return _assignmentLocalService.getAssignmentsCountByKeywords(
+			groupId, keywords, status);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
 		getIndexableActionableDynamicQuery() {
 
@@ -389,12 +398,24 @@ public class AssignmentLocalServiceWrapper
 	@Override
 	public com.liferay.training.gradebook.model.Assignment updateAssignment(
 			long assignmentId, java.util.Map<java.util.Locale, String> titleMap,
-			String description, java.util.Date dueDate,
+			java.util.Map<java.util.Locale, String> description,
+			java.util.Date dueDate,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _assignmentLocalService.updateAssignment(
 			assignmentId, titleMap, description, dueDate, serviceContext);
+	}
+
+	@Override
+	public com.liferay.training.gradebook.model.Assignment updateStatus(
+			long userId, long assignmentId, int status,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			   com.liferay.portal.kernel.exception.SystemException {
+
+		return _assignmentLocalService.updateStatus(
+			userId, assignmentId, status, serviceContext);
 	}
 
 	@Override

@@ -78,8 +78,6 @@ public class AssignmentCacheModel
 		sb.append(createDate);
 		sb.append(", modifiedDate=");
 		sb.append(modifiedDate);
-		sb.append(", description=");
-		sb.append(description);
 		sb.append(", dueDate=");
 		sb.append(dueDate);
 		sb.append(", status=");
@@ -90,6 +88,8 @@ public class AssignmentCacheModel
 		sb.append(statusByUserName);
 		sb.append(", statusDate=");
 		sb.append(statusDate);
+		sb.append(", description=");
+		sb.append(description);
 		sb.append(", title=");
 		sb.append(title);
 		sb.append("}");
@@ -127,13 +127,6 @@ public class AssignmentCacheModel
 			assignmentImpl.setModifiedDate(new Date(modifiedDate));
 		}
 
-		if (description == null) {
-			assignmentImpl.setDescription("");
-		}
-		else {
-			assignmentImpl.setDescription(description);
-		}
-
 		if (dueDate == Long.MIN_VALUE) {
 			assignmentImpl.setDueDate(null);
 		}
@@ -156,6 +149,13 @@ public class AssignmentCacheModel
 		}
 		else {
 			assignmentImpl.setStatusDate(new Date(statusDate));
+		}
+
+		if (description == null) {
+			assignmentImpl.setDescription("");
+		}
+		else {
+			assignmentImpl.setDescription(description);
 		}
 
 		if (title == null) {
@@ -182,7 +182,6 @@ public class AssignmentCacheModel
 		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
-		description = objectInput.readUTF();
 		dueDate = objectInput.readLong();
 
 		status = objectInput.readInt();
@@ -190,6 +189,7 @@ public class AssignmentCacheModel
 		statusByUserId = objectInput.readLong();
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
+		description = objectInput.readUTF();
 		title = objectInput.readUTF();
 	}
 
@@ -212,14 +212,6 @@ public class AssignmentCacheModel
 
 		objectOutput.writeLong(createDate);
 		objectOutput.writeLong(modifiedDate);
-
-		if (description == null) {
-			objectOutput.writeUTF("");
-		}
-		else {
-			objectOutput.writeUTF(description);
-		}
-
 		objectOutput.writeLong(dueDate);
 
 		objectOutput.writeInt(status);
@@ -234,6 +226,13 @@ public class AssignmentCacheModel
 		}
 
 		objectOutput.writeLong(statusDate);
+
+		if (description == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(description);
+		}
 
 		if (title == null) {
 			objectOutput.writeUTF("");
@@ -250,12 +249,12 @@ public class AssignmentCacheModel
 	public String userName;
 	public long createDate;
 	public long modifiedDate;
-	public String description;
 	public long dueDate;
 	public int status;
 	public long statusByUserId;
 	public String statusByUserName;
 	public long statusDate;
+	public String description;
 	public String title;
 
 }

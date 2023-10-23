@@ -64,7 +64,7 @@ public class AssignmentServiceImpl extends AssignmentServiceBaseImpl {
 	 * Never reference this class directly. Always use <code>com.liferay.training.gradebook.service.AssignmentServiceUtil</code> to access the assignment remote service.
 	 */
 	public Assignment addAssignment(
-			long groupId, Map<Locale, String> titleMap, String description,
+			long groupId, Map<Locale, String> titleMap, Map<Locale, String> description,
 			Date dueDate, ServiceContext serviceContext)
 			throws PortalException {
 
@@ -113,20 +113,20 @@ public class AssignmentServiceImpl extends AssignmentServiceBaseImpl {
 
 	public List<Assignment> getAssignmentsByKeywords(
 			long groupId, String keywords, int start, int end,
-			OrderByComparator<Assignment> orderByComparator) {
+			OrderByComparator<Assignment> orderByComparator, int status) {
 
 		return assignmentLocalService.getAssignmentsByKeywords(
 				groupId, keywords, start, end, orderByComparator);
 	}
 
-	public long getAssignmentsCountByKeywords(long groupId, String keywords) {
+	public long getAssignmentsCountByKeywords(long groupId, String keywords, int status) {
 
 		return assignmentLocalService.getAssignmentsCountByKeywords(
-				groupId, keywords);
+				groupId, keywords, status);
 	}
 
 	public Assignment updateAssignment(
-			long assignmentId, Map<Locale, String> titleMap, String description,
+			long assignmentId, Map<Locale, String> titleMap, Map<Locale, String> description,
 			Date dueDate, ServiceContext serviceContext)
 			throws PortalException {
 
